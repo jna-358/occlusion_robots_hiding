@@ -17,6 +17,7 @@ __pycache__/
 *.npz
 *.pth
 /data
+*.zip
 
 # C extensions
 *.so

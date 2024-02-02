@@ -20,6 +20,7 @@ from trajectory_optimization import main as trajectory_optimization_main
 from train import train
 import multiprocessing
 
+
 def main_increasing_duration(skip=False):
     dirname = "data/Nov08_11-05-20"  # "data/real_data"
     if not skip:
@@ -156,7 +157,7 @@ def main_latency_analysis():
     )
 
     # Load model weights
-    model.load_state_dict(torch.load("trained_models/synthetic_trajectory.pth"))
+    model.load_state_dict(torch.load("data/trained_models/synthetic_trajectory.pth"))
     model = model.to(device)
     model.eval()
 
@@ -298,21 +299,13 @@ if __name__ == "__main__":
 
     match args.mode:
         case "baseline":
-            train_single(
-                "training_configs/synthetic_baseline.json"
-            )
+            train_single("training_configs/synthetic_baseline.json")
         case "synthetic":
-            train_single(
-                "training_configs/synthetic_trajectory.json"
-            )
+            train_single("training_configs/synthetic_trajectory.json")
         case "real":
-            train_single(
-                "training_configs/real_world_trajectory.json"
-            )
+            train_single("training_configs/real_world_trajectory.json")
         case "durations":
-            main_increasing_duration(
-                skip=False
-            )
+            main_increasing_duration(skip=False)
         case "latency":
             main_latency_analysis()
         case "hyperparameters":

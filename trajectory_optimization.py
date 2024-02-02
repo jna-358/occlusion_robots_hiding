@@ -8,7 +8,7 @@ from architectures.linear_model import LinearModel
 import datetime
 from utils.rotations import get_rotation_matrix_torch
 
-checkpoint = "trained_models/pretrained_nullspace.pth"
+checkpoint = "data/trained_models/pretrained_nullspace.pth"
 
 num_steps_max = 10000
 
@@ -182,6 +182,7 @@ def main():
     plt.savefig(png_path := os.path.join(output_dir, f"trajectory_pos_error.png"))
     print(f"Saved plot to {png_path}")
     plt.show()
+
 
 if __name__ == "__main__":
     main()
