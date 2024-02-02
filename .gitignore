@@ -12,6 +12,11 @@ __pycache__/
 /data/*.pkl
 /images/*.pkl
 /images/*.npz
+/hyperopt_runs
+*.pkl
+*.npz
+*.pth
+/data
 
 # C extensions
 *.so
