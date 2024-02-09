@@ -113,7 +113,7 @@ def main_increasing_duration(skip=False):
     means_fit = fit_fun(hours_fit, a, b, c)
 
     # Plot
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(4, 3))
     plt.errorbar(
         durations_x,
         b_acc_mean,
@@ -125,6 +125,8 @@ def main_increasing_duration(skip=False):
     plt.plot(hours_fit, means_fit, "k--", linewidth=1, alpha=0.5)
     plt.xlabel("$T [h]$")
     plt.ylabel("bAcc")
+    plt.title("Trajectory Duration")
+    plt.tight_layout()
 
     for filetype in ["svg", "png", "pdf"]:
         plt.savefig(

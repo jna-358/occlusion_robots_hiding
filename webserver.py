@@ -107,7 +107,7 @@ def optimize(
     print(f"Initial position: {x_initial}")
 
     # Target visibility threshold
-    target_visibility = 0.9
+    target_visibility = 0.94
 
     # Check initial visibility
     y = model_predict(X)
