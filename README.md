@@ -28,7 +28,7 @@ This repository contains the official authors implementation associated with the
     year      = {2024},
     isbn      = {978-989-758-680-4},
     issn      = {2184-433X},
-    }</code></pre></div>
+}</code></pre></div>
 </section>
 
 # Funding
