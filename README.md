@@ -9,11 +9,11 @@ J. Nazarenus, S. Reichhuber, M. Amersdorfer, L. Elsner, R. Koch, S. Tomforde, H.
 This repository contains the official authors implementation associated with the paper "Learning Occlusions in Robotic Systems: How to Prevent Robots from Hiding Themselves"
 
 <p align="center">
-<img src="assets/norden-logo.png" alt="Image 1" width="45%"/>
-<img src="assets/eu-logo.jpg" alt="Image 1" width="45%"/>
+<img src="assets/norden-logo.png" alt="Image 1" width="30%"/>
+<img src="assets/eu-logo.jpg" alt="Image 1" width="30%"/>
 </p>
 <p align="center">
-    <img src="assets/cau-logo.svg" alt="Image 1" width="45%"/>
+    <img src="assets/cau-logo.svg" alt="Image 1" width="30%"/>
 </p>
 
 # BibTeX
@@ -50,7 +50,7 @@ If you want to quickly run the code, you can use this colab notebook. Esure to s
 - [tqdm](https://tqdm.github.io/)
 
 # Usage
-For validating the results, the script `validate.py param` offers to execute different experiments such as training on different datasets, measuring inference latencies or performing a hyperparameter search. There are the following parameters available:
+For validating the results, `python validate.py param` offers to execute different experiments such as training on different datasets, measuring inference latencies or performing a hyperparameter search. There are the following parameters available:
 
 
 param | Explanation
