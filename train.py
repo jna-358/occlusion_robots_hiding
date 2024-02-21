@@ -3,19 +3,11 @@ import torch
 import numpy as np
 from tqdm import tqdm
 from datetime import datetime
-import pickle as pkl
 from architectures.linear_model import LinearModel
-import matplotlib.pyplot as plt
 from utils.data import load_data
-import glob
-import json
 from utils.random_names import generate_random_str
 import ray
 from ray.tune.search.optuna import OptunaSearch
-import time
-import argparse
-import matplotlib.pyplot as plt
-import scipy.optimize
 from trajectory_optimization import main as trajectory_optimization_main
 
 
@@ -285,4 +277,3 @@ def train(config_tune={}, config_default={}):
         return
     else:
         return balanced_accuracy_1m_val_min, balanced_acc_1m_test
-
