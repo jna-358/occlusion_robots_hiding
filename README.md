@@ -20,15 +20,15 @@ This repository contains the official authors implementation associated with the
 <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
     <pre style="border-radius: 10px; overflow: hidden;"><code>@inproceedings{Nazarenus2024Learning,
-            author    = {Nazarenus, J. and Reichhuber, S. and Amersdorfer, M. and Elsner, L. and Koch, R. and Tomforde, S. and Abbas, H.},
-            title     = {Learning Occlusions in Robotic Systems: How to Prevent Robots from Hiding Themselves},
-            booktitle = {Proceedings of the 16th International Conference on Agents and Artificial Intelligence},
-            volume    = {2},
-            pages     = {482--492},
-            year      = {2024},
-            isbn      = {978-989-758-680-4},
-            issn      = {2184-433X},
-            }</code></pre></div>
+    author    = {Nazarenus, J. and Reichhuber, S. and Amersdorfer, M. and Elsner, L. and Koch, R. and Tomforde, S. and Abbas, H.},
+    title     = {Learning Occlusions in Robotic Systems: How to Prevent Robots from Hiding Themselves},
+    booktitle = {Proceedings of the 16th International Conference on Agents and Artificial Intelligence},
+    volume    = {2},
+    pages     = {482--492},
+    year      = {2024},
+    isbn      = {978-989-758-680-4},
+    issn      = {2184-433X},
+    }</code></pre></div>
 </section>
 
 # Funding
