@@ -1,15 +1,11 @@
-from typing import Union
-
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 import torch
 import tqdm
-import os
 import pickle as pkl
 from architectures.linear_model import LinearModel
-import datetime
 from utils.rotations import get_rotation_matrix_torch
-from typing import List
 from time import perf_counter
 
 checkpoint = "data/trained_models/pretrained_nullspace.pth"
@@ -17,6 +13,21 @@ device = "cuda:0"
 num_steps_max = 10000
 
 app = FastAPI()
+
+# Define a list of allowed origins for CORS
+allowed_origins = [
+    "http://192.168.1.139:8000",
+]
+
+# Add CORSMiddleware to the application
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,  # Allows specified origins (use ["*"] for all origins)
+    allow_credentials=True,  # Allow cookies to be included in cross-origin requests
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 
 # Load the model (prediction)
 model_predict = LinearModel(7, 2, 78)
@@ -177,3 +188,153 @@ def optimize(
                 "angles": None,
                 "status": "no convergence",
             }
+
+
+@app.get("/move")
+def move(
+    a0: float = 0.0,
+    a1: float = 0.0,
+    a2: float = 0.0,
+    a3: float = 0.0,
+    a4: float = 0.0,
+    a5: float = 0.0,
+    a6: float = 0.0,
+    v0: float = 0.0,
+    v1: float = 0.0,
+    v2: float = 0.0,
+    vis: bool = False,
+):
+
+    # Get the initial end effector position
+    start_angles = [a0, a1, a2, a3, a4, a5, a6]
+    print(f"Start angles: {start_angles}")
+    X = torch.tensor(start_angles).unsqueeze(0)
+    x_initial = kinematic_fun(X[0, :])[:-1, -1]
+    print(f"Initial position: {x_initial}")
+
+    # Target position
+    x_target = torch.tensor([v0, v1, v2])
+    print(f"Target position: {x_target}")
+
+    # Try to optimize
+    X_param = torch.nn.Parameter(X)
+    optimizer = torch.optim.Adam([X_param], lr=1e-2)
+
+    pbar = tqdm.tqdm(range(10))
+    for i_epoch in pbar:
+        optimizer.zero_grad()
+
+        # Compute kinematics
+        T_kinematic = kinematic_fun(X_param[0, :])
+        target_position = T_kinematic[:-1, -1]
+        loss_position = torch.sum((target_position - x_target) ** 2)
+
+        # Compute visibility
+        if vis:
+            y = model_predict(X_param)
+            visibility = y[0, -1]
+            loss_visibility = 1 - visibility
+        else:
+            loss_visibility = torch.tensor(0.0)
+
+        # Compute loss
+        loss = loss_visibility + loss_position * 1e1
+
+        # Stop if position is good enough
+        if loss_position < 1e-7:
+            break
+
+        # Backward pass
+        loss.backward()
+
+        # Optimizer step
+        optimizer.step()
+
+        # Print
+        pbar.set_description(f"Position error: {loss_position:.2e}; Loss: {loss:.2e}")
+
+    # # Compute kinematics
+    # T_kinematic = kinematic_fun(X_param[0, :])
+    # target_position = T_kinematic[:-1, -1]
+    # loss_position = torch.sum((target_position - x_target) ** 2)
+
+    # # Compute gradient
+    # loss_position.backward()
+
+    # # Read gradient from parameter
+    # gradient = X_param.grad
+
+    # # Update parameter
+    # X_param = X_param - 1e-1 * gradient
+
+    # Check final position
+    visibility = 1 - loss_visibility.item()
+    T_kinematic = kinematic_fun(X_param[0, :])
+    print(f"Final position: {T_kinematic[:-1, -1]}")
+    print(f"Final angles (rad): {X_param.detach().numpy()[0]}")
+    print(f"Final angles (deg): {np.rad2deg(X_param.detach().numpy()[0])}")
+    print(f"Final visibility: {visibility}")
+
+    return {
+        "initial_position": x_initial.tolist(),
+        "target_position": x_target.tolist(),
+        "final_position": T_kinematic[:-1, -1].tolist(),
+        "angles": X_param.detach().numpy()[0].tolist(),
+        "visibility": visibility if vis else 0.0,
+    }
+
+
+@app.get("/grad")
+def grad(
+    a0: float = 0.0,
+    a1: float = 0.0,
+    a2: float = 0.0,
+    a3: float = 0.0,
+    a4: float = 0.0,
+    a5: float = 0.0,
+    a6: float = 0.0,
+    v0: float = 0.0,
+    v1: float = 0.0,
+    v2: float = 0.0,
+):
+
+    # Get the initial end effector position
+    start_angles = [a0, a1, a2, a3, a4, a5, a6]
+    print(f"Start angles: {start_angles}")
+    X = torch.tensor(start_angles).unsqueeze(0)
+    x_initial = kinematic_fun(X[0, :])[:-1, -1]
+    print(f"Initial position: {x_initial}")
+
+    # Target position
+    x_target = torch.tensor([v0, v1, v2])
+    print(f"Target position: {x_target}")
+
+    # Try to optimize
+    X_param = torch.nn.Parameter(X)
+
+    # Compute kinematics
+    T_kinematic = kinematic_fun(X_param[0, :])
+    target_position = T_kinematic[:-1, -1]
+    loss_position = torch.sum((target_position - x_target) ** 2)
+
+    # Compute gradient
+    loss_position.backward()
+
+    # Read gradient from parameter
+    gradient = X_param.grad
+
+    # Update parameter
+    X_param = X_param - 1e-1 * gradient
+
+    # Check final position
+    T_kinematic = kinematic_fun(X_param[0, :])
+    print(f"Final position: {T_kinematic[:-1, -1]}")
+    print(f"Final angles (rad): {X_param.detach().numpy()[0]}")
+    print(f"Final angles (deg): {np.rad2deg(X_param.detach().numpy()[0])}")
+
+    return {
+        "initial_position": x_initial.tolist(),
+        "target_position": x_target.tolist(),
+        "final_position": T_kinematic[:-1, -1].tolist(),
+        "angles": X_param.detach().numpy()[0].tolist(),
+    }
