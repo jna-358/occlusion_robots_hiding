@@ -35,6 +35,8 @@ This repository contains the official authors implementation associated with the
 This research is funded through the Project "OP der Zukunft" within the funding program by Europäischen Fonds für Regionale Entwicklung (REACT-EU).
 
 # Demo
+![Browser Demo](assets/browser.gif)
+
 An interactive demo is available at [this link](https://robots-hiding.nazarenus.dev). Keep in mind that due to network latencies or high demand, the optimization speed and responsiveness of the animation may vary.
 
 # Colab
