@@ -34,6 +34,9 @@ This repository contains the official authors implementation associated with the
 # Funding
 This research is funded through the Project "OP der Zukunft" within the funding program by Europäischen Fonds für Regionale Entwicklung (REACT-EU).
 
+# Demo
+An interactive demo is available at [this link](https://robots-hiding.nazarenus.dev). Keep in mind that due to network latencies or high demand, the optimization speed and responsiveness of the animation may vary.
+
 # Colab
 If you want to quickly run the code, you can use this colab notebook. Esure to select a T4 gpu for the runtime before training for accelerated training.
 
