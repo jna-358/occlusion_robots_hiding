@@ -81,16 +81,6 @@ def train(config_tune={}, config_default={}):
         num_visible_train = torch.sum(Y[:, -1])
         num_hidden_train = torch.sum(1.0 - Y[:, -1])
 
-        visibility_mask_train = Y[:, -1]
-        visibility_mask_train = torch.stack(3 * (visibility_mask_train,), axis=-1)
-
-        visibility_mask_val = Y_val[:, -1]
-        visibility_mask_val = torch.stack(3 * (visibility_mask_val,), axis=-1)
-
-        if config["position_reconstruction"]:
-            visibility_mask_train[:, :] = 1.0
-            visibility_mask_val[:, :] = 1.0
-
         # Visibility weights
         weight_visible = (num_visible_train + num_hidden_train) / (
             2 * num_visible_train
