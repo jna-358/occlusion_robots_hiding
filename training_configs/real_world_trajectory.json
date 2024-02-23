@@ -8,8 +8,6 @@
     "LEARNING_RATE": 2e-3,
     "TEST_SPLIT": 0.3,
     "BASELINE_DATA": null, 
-    "position_reconstruction": false,
-    "distance_assistance": false,
     "TENSORBOARD": false,
     "SEED": 42,
     "SAVE": false,

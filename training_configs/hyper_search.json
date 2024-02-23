@@ -8,8 +8,6 @@
     "LEARNING_RATE": 1e-2,
     "TEST_SPLIT": 0.3,
     "BASELINE_DATA": "data/Nov08-T2010-1e6/data_uniform_distances.pkl",  
-    "position_reconstruction": false,  
-    "distance_assistance": false,  
     "TENSORBOARD": false,  
     "SEED": 0,
     "SAVE": false,
