@@ -69,3 +69,6 @@ param | Explanation
 `nullspace` | Optimizes a robot configuration in order to improve the visibility
 
 To generate random sampling trajectories use `python trajectory_generation.py`
+
+# AI-Assisted Coding
+During the development of this project, we used the [GitHub Copilot](https://github.com/features/copilot) plugin for [Visual Studio Code](https://code.visualstudio.com/docs/copilot/overview) for semantic code completion.
